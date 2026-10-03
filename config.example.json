@@ -1,0 +1,21 @@
+{
+  "pollIntervalSeconds": 5,
+  "downAfterFailures": 2,
+  "services": {
+    "ollama": { "enabled": true, "url": "http://localhost:11434" },
+    "openwebui": { "enabled": true, "url": "http://localhost:3000", "apiKey": "" },
+    "n8n": { "enabled": true, "url": "http://localhost:5678", "apiKey": "", "webhookHeaders": {} }
+  },
+  "notifications": {
+    "serviceDown": true,
+    "serviceUp": true,
+    "modelLoaded": true,
+    "workflowFailed": true,
+    "workflowStarted": true
+  },
+  "island": { "enabled": true, "position": "center", "theme": "midnight" },
+  "chat": {
+    "shortcut": "CommandOrControl+Alt+O",
+    "systemPrompt": ""
+  }
+}

@@ -1,0 +1,99 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'" />
+    <title>ciouciou settings</title>
+    <style>
+      :root {
+        --bg: #000; --card: #111113; --surface: #1c1c1e; --border: #2a2a2d;
+        --fg: #f2f2f7; --muted: #9a9aa2; --accent: #0a84ff;
+        --up: #34c759; --busy: #0a84ff; --degraded: #ff9f0a; --down: #ff453a;
+      }
+      html, body { margin: 0; background: var(--bg); color: var(--fg); font: 13px/1.4 "Segoe UI", system-ui, sans-serif; }
+      main { padding: 22px 24px 20px; }
+      .hello { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
+      .hello h1 { margin: 0; font-size: 18px; font-weight: 600; }
+      .hello p { margin: 2px 0 0; color: var(--muted); }
+
+      .chick { display: inline-block; line-height: 0;
+        --o: var(--po); --e: var(--pe); --k: var(--pk); --f: var(--pf); --d: var(--pd);
+        --E: var(--pE); --S: var(--pS); --b: var(--pb); --h: var(--ph); --w: var(--pw); --c: var(--pc); }
+      .chick .bird > g, .chick .egg { display: none; }
+      .chick .bird > .wings-down, .chick .bird > .eyes-open { display: inline; }
+      .chick .sprite { animation: bob 3s ease-in-out infinite; }
+      @keyframes bob { 50% { transform: translateY(-2px); } }
+
+      fieldset { border: 0; margin: 0 0 12px; padding: 12px 14px 14px; background: var(--card); border-radius: 14px; }
+      legend { float: left; width: 100%; padding: 0; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; font-weight: 600; }
+      legend .status { margin-left: auto; font-weight: 400; font-size: 11.5px; color: var(--muted); }
+      legend .status.up, legend .status.busy { color: var(--up); }
+      legend .status.degraded { color: var(--degraded); }
+      legend .status.down { color: var(--down); }
+      label { display: block; clear: both; color: var(--muted); font-size: 11.5px; margin-top: 8px; }
+      input[type="text"], input[type="password"] {
+        box-sizing: border-box; width: 100%; margin-top: 4px; padding: 8px 10px; border-radius: 9px;
+        background: var(--surface); color: var(--fg); border: 1px solid var(--border); font: 13px "Segoe UI", sans-serif; outline: none;
+      }
+      input:focus { border-color: var(--accent); }
+      .switch { margin-left: 0; display: flex; align-items: center; gap: 6px; font-weight: 400; font-size: 11.5px; color: var(--muted); }
+      .hint { color: var(--muted); font-size: 11px; margin-top: 4px; }
+
+      .startup { display: flex; align-items: center; gap: 8px; margin: 4px 2px 16px; }
+      .actions { display: flex; gap: 8px; justify-content: flex-end; align-items: center; }
+      .actions .msg { margin-right: auto; color: var(--muted); font-size: 12px; }
+      .actions .msg.ok { color: var(--up); }
+      .actions .msg.err { color: var(--down); }
+      button {
+        border: 0; border-radius: 10px; padding: 9px 16px; font: 600 13px "Segoe UI", sans-serif; cursor: pointer;
+        background: var(--surface); color: var(--fg);
+      }
+      button:hover { background: #2a2a2d; }
+      button.primary { background: var(--accent); color: #fff; }
+      button.primary:hover { background: #2a93ff; }
+      button:disabled { opacity: 0.5; cursor: default; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div class="hello">
+        <span id="chick"></span>
+        <div>
+          <h1 id="title">ciouciou settings</h1>
+          <p id="subtitle">Where your homelab services live.</p>
+        </div>
+      </div>
+
+      <form id="form">
+        <fieldset data-service="ollama">
+          <legend><label class="switch"><input type="checkbox" name="ollama.enabled" /></label>Ollama<span class="status"></span></legend>
+          <label>Address<input type="text" name="ollama.url" placeholder="http://192.168.10.120:31434" /></label>
+        </fieldset>
+
+        <fieldset data-service="openwebui">
+          <legend><label class="switch"><input type="checkbox" name="openwebui.enabled" /></label>Open WebUI<span class="status"></span></legend>
+          <label>Address<input type="text" name="openwebui.url" placeholder="https://ai.example.com" /></label>
+          <label>API key<input type="password" name="openwebui.apiKey" placeholder="sk-…" autocomplete="off" /></label>
+          <div class="hint">Open WebUI → Settings → Account → API keys. Needed for the chat.</div>
+        </fieldset>
+
+        <fieldset data-service="n8n">
+          <legend><label class="switch"><input type="checkbox" name="n8n.enabled" /></label>n8n<span class="status"></span></legend>
+          <label>Address<input type="text" name="n8n.url" placeholder="http://n8n.example.com" /></label>
+          <label>API key<input type="password" name="n8n.apiKey" placeholder="eyJ…" autocomplete="off" /></label>
+          <div class="hint">n8n → Settings → n8n API. Needed for workflows and the Run buttons.</div>
+        </fieldset>
+
+        <label class="startup" id="startup-row"><input type="checkbox" name="launchAtStartup" /> Start ciouciou when I sign in to Windows</label>
+
+        <div class="actions">
+          <span id="msg" class="msg"></span>
+          <button type="button" id="test">Test connection</button>
+          <button type="submit" class="primary" id="save">Save</button>
+        </div>
+      </form>
+    </main>
+    <script src="chick.js"></script>
+    <script src="settings.js"></script>
+  </body>
+</html>
